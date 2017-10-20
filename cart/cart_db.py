@@ -8,9 +8,11 @@ import os
 import pandas as pd
 import uuid as cart_uuid
 
+MODULE_DIRNAME = os.path.dirname(__file__)
+
 
 class CartDb(object):
-    CART_DB_FILE = 'cart_db.csv'
+    CART_DB_FILE = os.path.join(MODULE_DIRNAME, 'cart_db.pickle')
 
     '''
     The cart database is indexed by cart universal unique ID. For each
@@ -27,7 +29,7 @@ class CartDb(object):
         database backend.
         '''
         if os.path.exists(self.CART_DB_FILE):
-            self._db = pd.read_csv(self.CART_DB_FILE)
+            self._db = pd.read_pickle(self.CART_DB_FILE)
         else:
             self._db = pd.DataFrame(columns=self.CART_DB_COLUMNS)
 
@@ -37,7 +39,7 @@ class CartDb(object):
         prototype because the "database" is actually an in-memory pandas
         dataframe.
         '''
-        self._db.to_csv(self.CART_DB_FILE)
+        self._db.to_pickle(self.CART_DB_FILE)
 
     def create(self, user):
         '''

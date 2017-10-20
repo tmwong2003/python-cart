@@ -98,7 +98,7 @@ class Controller(object):
             # system for a refund.
             self._cart_db.unpurchase(uuid)
             raise RuntimeError('ERROR: Unable to purchase cart contents')
-        return cart
+        return self._populate_cart(cart)
 
     def _flush_cart_db(self):
         '''
